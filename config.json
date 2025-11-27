@@ -1,0 +1,26 @@
+{
+    "crawler": {
+        "user_id": "",
+        "cookie": "",
+        "start_date": "",
+        "end_date": "",
+        "max_pages": 50,
+        "delay_min": 1,
+        "delay_max": 3
+    },
+    "output": {
+        "save_json": true,
+        "output_dir": "./output",
+        "filename_prefix": "weibo_data"
+    },
+    "analysis": {
+        "enable_sentiment": true,
+        "enable_word_freq": true,
+        "enable_time_dist": true,
+        "word_freq_top_n": 20
+    },
+    "logging": {
+        "level": "INFO",
+        "format": "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+    }
+}
