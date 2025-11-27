@@ -192,11 +192,17 @@ class WeiboAnalyzer:
         daily = Counter()
         monthly = Counter()
         
+        # 中文星期名称映射
+        weekday_names = {
+            0: "周一", 1: "周二", 2: "周三", 3: "周四",
+            4: "周五", 5: "周六", 6: "周日"
+        }
+        
         for weibo in self.weibos:
             parsed_date = weibo.get("parsed_date")
             if isinstance(parsed_date, datetime):
                 hourly[parsed_date.hour] += 1
-                daily[parsed_date.strftime("%A")] += 1
+                daily[weekday_names[parsed_date.weekday()]] += 1
                 monthly[parsed_date.strftime("%Y-%m")] += 1
         
         return {

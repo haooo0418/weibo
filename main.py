@@ -124,7 +124,7 @@ def main():
     parser.add_argument(
         "--output_dir",
         type=str,
-        default="./output",
+        default=None,
         help="输出目录（默认./output）"
     )
     parser.add_argument(

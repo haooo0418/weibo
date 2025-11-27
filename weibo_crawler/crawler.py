@@ -5,10 +5,11 @@ This module provides functionality to crawl Weibo posts from users
 within a specified time range.
 """
 
+import re
 import time
 import random
 import logging
-from datetime import datetime
+from datetime import datetime, timedelta
 from typing import Optional
 from urllib.parse import urlencode
 
@@ -126,16 +127,14 @@ class WeiboCrawler:
                 return now
             elif "分钟前" in date_str:
                 minutes = int(date_str.replace("分钟前", ""))
-                return datetime(now.year, now.month, now.day, now.hour, 
-                              max(0, now.minute - minutes))
+                return now - timedelta(minutes=minutes)
             elif "小时前" in date_str:
                 hours = int(date_str.replace("小时前", ""))
-                return datetime(now.year, now.month, now.day, 
-                              max(0, now.hour - hours), now.minute)
+                return now - timedelta(hours=hours)
             elif "昨天" in date_str:
                 time_part = date_str.replace("昨天 ", "")
                 hour, minute = map(int, time_part.split(":"))
-                yesterday = now.replace(day=now.day - 1)
+                yesterday = now - timedelta(days=1)
                 return datetime(yesterday.year, yesterday.month, yesterday.day, 
                               hour, minute)
             elif "-" in date_str and ":" in date_str:
@@ -171,7 +170,6 @@ class WeiboCrawler:
         text = mblog.get("text", "")
         
         # 清理HTML标签
-        import re
         clean_text = re.sub(r'<[^>]+>', '', text)
         
         created_at = mblog.get("created_at", "")
