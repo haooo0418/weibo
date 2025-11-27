@@ -87,6 +87,20 @@ class WeiboCrawler:
                 params=params,
                 timeout=10
             )
+            
+            # Handle 432 error specifically - requires authentication
+            if resp.status_code == 432:
+                logger.error(
+                    "微博API返回432错误，需要登录认证。请提供有效的cookie参数。\n"
+                    "获取cookie方法：\n"
+                    "1. 在浏览器中登录 m.weibo.cn\n"
+                    "2. 打开开发者工具 (F12)\n"
+                    "3. 在Network标签中找到任意请求\n"
+                    "4. 复制Request Headers中的Cookie值\n"
+                    "5. 使用 --cookie 参数传入"
+                )
+                return None
+            
             resp.raise_for_status()
             data = resp.json()
             
